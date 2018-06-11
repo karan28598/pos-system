@@ -16,7 +16,7 @@
 
 <script id="item-list-template" type="text/x-template">
     <div class="list-group">
-        <button class="list-group-item item" v-repeat="item: items" v-on="click: itemClicked(item)">
+        <button class="list-group-item item" v-for="item in items" v-on="click: itemClicked(item)">
             <strong>{{ item.name }}</strong> - {{ item.price }}
         </button>
     </div>
@@ -39,7 +39,7 @@
                     <span v-if="!item.editing" v-on="dblclick: toggleEdit(item)">{{ item.numberOfItems }}</span>
                     <input v-if="item.editing" v-on="blur: toggleEdit(item)" type="number" v-model="item.numberOfItems">
                 </td>
-                <td>{{ item.numberOfItems * item.item.price | currency }}</td>
+                <td>{{ item.numberOfItems * item.item.price }}</td>
                 <td><i class="fa fa-times" v-on="click: removeItem(item)"></i></td>
             </tr>
         </tbody>
@@ -50,15 +50,15 @@
         <tbody>
             <tr>
                 <td>Subtotal:</td>
-                <td>{{ subtotal | currency }}</td>
+                <td>{{ subtotal }}</td>
             </tr>
             <tr>
                 <td>Tax:</td>
-                <td>{{ tax | currency }}</td>
+                <td>{{ tax }}</td>
             </tr>
             <tr>
                 <td>Total:</td>
-                <td>{{ total | currency }}</td>
+                <td>{{ total }}</td>
             </tr>
         </tbody>
     </table>
@@ -70,10 +70,10 @@
             <h1>Point of Sale</h1>
             <div class="row">
                 <div class="col-md-6">
-                    <transaction items="{{ lineItems }}" edit="{{ toggleEdit }}" remove="{{ removeItem }}"></transaction>
+                    <transaction v-bind:items="lineItems" v-bind:edit="toggleEdit" v-bind:remove="removeItem"></transaction>
                 </div>
                 <div class="col-md-6">
-                    <item-list items="{{ items }}" add="{{ onItemClick }}"></item-list>
+                    <item-list v-bind:items="items" v-bind:add="onItemClick"></item-list>
                 </div>
             </div>
         </div>
